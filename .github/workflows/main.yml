@@ -1,26 +1,30 @@
 name: Upload To Server
-on:
-  push:
-    branches: [ live ]
-  pull_request:
-    branches: [ live ]
-    
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose
 
-      - uses: appleboy/scp-action@master
-      - name: Upload with SSH
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          port: 22
-          key: ${{ secrets.KEY }}
-          source: "/home/runner/work/p2p/p2p/target/debug/p2p"
-          target: "."
+on:
+    push:
+        branches: [live]
+    pull_request:
+        branches: [live]
+
+env:
+    CARGO_TERM_COLOR: always
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Build
+              run: cargo build --verbose
+            - name: Run tests
+              run: cargo test --verbose
+
+            - uses: appleboy/scp-action@master
+            - name: Upload with SSH
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USER }}
+                  port: 22
+                  key: ${{ secrets.KEY }}
+                  source: "/home/runner/work/p2p/p2p/target/debug/p2p"
+                  target: "."
