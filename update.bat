@@ -1,0 +1,1 @@
+ssh -i google-cloud-ssh-key 34.134.64.110 "git clone https://github.com/SrMordred/p2p && ./update.sh"
